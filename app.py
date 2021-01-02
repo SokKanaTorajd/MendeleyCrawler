@@ -11,7 +11,7 @@ import os
 # options.add_argument("--headless")
 # options.add_argument("--disable-notifications")
 # options.add_argument("disable-infobars")
-driver = Firefox(executable_path='C:/Users/acer/geckodriver.exe')
+driver = Firefox(executable_path='/driver/geckodriver.exe')
 print('Firefox driver loaded')
 
 for i in range(1,2):
