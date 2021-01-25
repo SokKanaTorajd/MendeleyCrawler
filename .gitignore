@@ -1,4 +1,14 @@
+# folders
 .env/
+__pycache__/
+.vscode/
+.ipynb_checkpoints/
+
+# files
+Test.ipynb
 .pyc
 test.py
+config.py
+model.py
+logs.txt
 geckodriver.log
