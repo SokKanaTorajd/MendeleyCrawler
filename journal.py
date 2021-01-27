@@ -26,7 +26,7 @@ def insert_detail(file, detail):
 df = pd.read_csv('./data/urls-copy.csv')
 urls = df['url']
 
-details = pd.read_csv('./data/details.csv', encoding='cp1252')
+details = pd.read_csv('./data/details.csv') # , encoding='cp1252')
 url_details = details['url'].tolist()
 
 driver = Firefox(executable_path='./driver/geckodriver.exe')
@@ -74,7 +74,7 @@ for i in range(len(urls)):
                 aux = "//html/body/div[2]/div/div[1]/div/div/div/div[1]/div/div/div[1]/div[1]/div/ul/li[{}]".format(str(i+1))
                 authr = driver.find_element_by_xpath(aux).text
                 auths.append(authr)
-            print('auhors acquired')
+            print('authors acquired')
 
             keywords = driver.find_elements_by_xpath(keywords_xpath)
             keys = []
@@ -87,10 +87,10 @@ for i in range(len(urls)):
         except NoSuchElementException:
             driver.get(driver.current_url)
 
-        detail = [urls[i], title, publisher, doc_id, auths, keys, abstract]
+        detail = [driver.current_url, title, publisher, doc_id, auths, keys, abstract]
         print(detail)
         
-        file = './data/details.csv'
+        file = './data/new-details.csv'
         insert_detail(file, detail)
         print()
         sleep(5)
