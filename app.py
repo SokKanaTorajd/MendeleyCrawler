@@ -66,7 +66,7 @@ for page in range(151,201):
     except TimeoutException:
         sleep(60)
         driver.get(url)
-        
+
 
     # sleep(5)
     # next_button = "/html/body/div[2]/main/div/div/div[3]/section/div/div[2]/button[3]"

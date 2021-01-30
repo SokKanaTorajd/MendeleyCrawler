@@ -3,9 +3,11 @@
 __pycache__/
 .vscode/
 .ipynb_checkpoints/
+crawlers/__pycache__
+
 
 # files
-Test.ipynb
+test.ipynb
 .pyc
 test.py
 config.py
