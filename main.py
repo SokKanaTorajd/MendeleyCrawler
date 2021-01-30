@@ -1,10 +1,10 @@
 from selenium.common.exceptions import NoSuchElementException
-from selenium.webdriver.firefox.options import Options
-from selenium.webdriver import Firefox
+from selenium.webdriver.chrome.options import Options
+from selenium.webdriver import Chrome
 from crawlers.search import SearchPage
 from crawlers.page import JournalPage
 from time import sleep
-# import os
+import os
 
 
 def collect_urls(driver, keyword, url_file):
@@ -21,13 +21,19 @@ def collect_urls(driver, keyword, url_file):
 if __name__ == '__main__':
     try:
         opts = Options()
-        opts.add_argument("--headless")
-        opts.add_argument("--disable-notifications")
-        opts.add_argument("disable-infobars")
-        opts.binary_location = os.environ.get("FIREFOX_BIN")
-
-        driver = Firefox(executable_path='./driver/geckodriver.exe', options=opts)
+        # opts.add_argument("--headless")
+        # opts.add_argument("--disable-notifications")
+        # opts.add_argument("disable-infobars")
+        # opts.binary_location = os.environ.get("FIREFOX_BIN")
+        # driver = Firefox(executable_path='./driver/geckodriver.exe', options=opts)
         # driver = Firefox(executable_path=os.environ.get("GECKODRIVER_PATH"), options=opts)
+
+        opts.add_argument("--headless")
+        opts.add_argument("--disable-dev-shm-usage")
+        opts.add_argument("--no-sandbox")
+        opts.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+        driver  = Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), options=opts)
+
         print('Firefox driver loaded')
         sp = SearchPage(driver)
         keyword = 'supply chain'
