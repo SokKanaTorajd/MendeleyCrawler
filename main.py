@@ -4,6 +4,7 @@ from selenium.webdriver import Firefox
 from crawlers.search import SearchPage
 from crawlers.page import JournalPage
 from time import sleep
+import os
 
 
 def collect_urls(driver, keyword, url_file):
@@ -23,8 +24,10 @@ if __name__ == '__main__':
         opts.add_argument("--headless")
         opts.add_argument("--disable-notifications")
         opts.add_argument("disable-infobars")
+        opts.binary_location = os.environ.get("FIREFOX_BIN")
 
-        driver = Firefox(executable_path='./driver/geckodriver.exe', options=opts)
+        #driver = Firefox(executable_path='./driver/geckodriver.exe', options=opts)
+        driver = Firefox(executable_path=os.environ.get("GECKODRIVER_PATH"), options=opts)
         print('Firefox driver loaded')
         sp = SearchPage(driver)
         keyword = 'supply chain'

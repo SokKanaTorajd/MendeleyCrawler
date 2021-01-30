@@ -16,7 +16,7 @@ class JournalPage():
 
     def journal_title(self):
         try:
-            xpath = "/html/body/div[2]/div/div[1]/div/div/div/div[1]/div/div/div[1]/h1"
+            xpath = '//h1[@class="TitlePage-wu5tuy-0 GvTdT"]'
             title = self.driver.find_element_by_xpath(xpath).text
             print('title acquired')
         except NoSuchElementException:
@@ -64,13 +64,11 @@ class JournalPage():
     
     def journal_authors(self):
         try:
-            xpath = "//html/body/div[2]/div/div[1]/div/div/div/div[1]/div/div/div[1]/div[1]/div/ul/li"
+            xpath = '//li[@class="ListItem-kfdxir-0 ListAuthor__ListAuthorItem-sc-1kigzp2-1 ljWowo"]'
             authors = self.driver.find_elements_by_xpath(xpath)
             auths = []
-            for i in range(len(authors)):
-                autx = "//html/body/div[2]/div/div[1]/div/div/div/div[1]/div/div/div[1]/div[1]/div/ul/li[{}]".format(str(i+1))
-                authr = self.driver.find_element_by_xpath(autx).text
-                auths.append(authr)
+            for authr in authors:
+                auths.append(authr.text)
             print('authors acquired')
         except NoSuchElementException:
             print('authors unavailable')
@@ -122,6 +120,7 @@ class JournalPage():
             
             except TimeoutException:
                 print('url {} unretrieved. Move to next url.\n'.format(urls[i]))
+                detail = [self.driver.current_url, '', '', '', '', '', '']
                 self.driver.get(urls[i+1])
 
             detail = [urls[i], title, publisher, doc_id, auths, keys, abstract]
