@@ -1,6 +1,7 @@
 from selenium.common.exceptions import TimeoutException
 from crawlers.cookies import cookies_check
-from functions import insert_link
+# from functions import insert_link
+from data.database import DBModel
 from time import sleep
 import csv
 
@@ -26,7 +27,8 @@ class SearchPage():
         max_page = page[len(page)-1]
         return max_page
 
-    def get_links(self, url, file):
+    # def get_links(self, url, file):
+    def get_links(self,url):
         self.driver.implicitly_wait(15)
         print('opening url...')
         self.driver.get(url)
@@ -37,6 +39,10 @@ class SearchPage():
 
         journals_xpath = "/html/body/div[2]/main/div/div/div[3]/section/div/ol/div"
         results = self.driver.find_elements_by_xpath(journals_xpath)
+        
+        dbmodel = DBModel()
+        database = 'journal_details'
+        collection = 'urls'
 
         for i in range(len(results)):
             self.driver.implicitly_wait(10)
@@ -46,9 +52,14 @@ class SearchPage():
             sleep(5)
             href_elem = "/html/body/div[2]/main/aside/div[3]/div[2]/cite/a"
             self.driver.implicitly_wait(10)
-            link = [self.driver.find_element_by_xpath(href_elem).get_attribute('href')]
 
-            insert_link(file, link)
+            # ---- Save data in local
+            # link = [self.driver.find_element_by_xpath(href_elem).get_attribute('href')]
+            # insert_link(file, link)
+
+            # ---- Save data in server
+            link = self.driver.find_element_by_xpath(href_elem).get_attribute('href')
+            dbmodel.insert_url(database, collection, link)
         
             sleep(5)
 

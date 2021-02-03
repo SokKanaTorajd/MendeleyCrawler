@@ -1,6 +1,7 @@
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from crawlers.cookies import cookies_check
 from functions import insert_detail
+from data.database import DBModel
 from pandas import read_csv
 from time import sleep
 
@@ -93,7 +94,7 @@ class JournalPage():
             
         return keys
 
-    def crawl_data(self, url_file, detail_file):
+    def crawl_local(self, url_file, detail_file):
         df = read_csv(url_file)
         urls = df['url']
 
@@ -129,3 +130,40 @@ class JournalPage():
             sleep(10)
         
         print('Journal Crawling Succeed')
+
+    def crawl_data(self, url):
+        self.driver.implicitly_wait(10)
+        self.driver.get(url)
+        self.driver.refresh()
+
+        cookies_check(self.driver)
+
+        dbmodel = DBModel()
+        database = 'journal_details'
+        collection = 'details'
+
+        try:
+            title = self.journal_title()
+            publisher = self.journal_publisher()
+            doc_id = self.journal_id()
+            auths = self.journal_authors()
+            abstract = self.journal_abstract()
+            keys = self.journal_keywords()
+            
+            detail = [url, title, publisher, doc_id, auths, keys, abstract]
+            dbmodel.insert_detail(database, collection, detail)
+
+            print(detail, '\nDetail inserted.\n')
+            sleep(10)
+
+        except NoSuchElementException:
+            detail = [self.driver.current_url, '', '', '', '', '', '']
+            dbmodel.insert_detail(database, collection, detail)
+            print('Cannot collect data, maybe wrong url.\n')
+        
+        except TimeoutException:
+            detail = [self.driver.current_url, '', '', '', '', '', '']
+            dbmodel.insert_detail(database, collection, detail)
+            print('Take too much time. Move to next url.\n')
+        
+            
