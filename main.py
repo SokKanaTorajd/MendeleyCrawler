@@ -14,7 +14,7 @@ def get_browser(driver=None, launch=None):
     " driver='Chrome' or 'Firefox', launch='local' or 'server' "
     if driver == 'Firefox':
         fo = firefox_opts()
-        # fo.add_argument("--headless")
+        fo.add_argument("--headless")
         fo.add_argument("--disable-notifications")
         fo.add_argument("disable-infobars")
         if launch == 'local':
@@ -25,7 +25,7 @@ def get_browser(driver=None, launch=None):
 
     if driver == 'Chrome':
         co = chrome_opts()
-        # co.add_argument("--headless")
+        co.add_argument("--headless")
         co.add_argument("--disable-dev-shm-usage")
         co.add_argument("--no-sandbox")
         if launch == 'local':
