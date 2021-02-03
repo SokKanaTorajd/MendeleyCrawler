@@ -3,7 +3,7 @@ import os
 
 class DBModel(object):
     # client = MongoClient()
-    client = MongoClient(os.environ.get("MONGODB_URI"))
+    client = MongoClient("mongodb+srv://wijatama:tEyYdWRXuDSDGF1N@crawlmend-project.twn5s.mongodb.net/journal_details?retryWrites=true&w=majority")
 
     def insert_url(self, database, collection, url):
         db = self.client[database]
