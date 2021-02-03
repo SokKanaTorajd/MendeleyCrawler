@@ -54,7 +54,7 @@ def collect_urls(driver, keyword):
 
 if __name__ == '__main__':
     try:
-        driver = get_browser(driver='Chrome', launch='local')
+        driver = get_browser(driver='Chrome', launch='server')
         print('Driver opened.')
         
         # url_file = './data/urls.csv'
