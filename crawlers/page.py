@@ -139,7 +139,6 @@ class JournalPage():
         cookies_check(self.driver)
 
         dbmodel = DBModel()
-        database = 'journal_details'
         collection = 'details'
 
         try:
@@ -151,19 +150,19 @@ class JournalPage():
             keys = self.journal_keywords()
             
             detail = [url, title, publisher, doc_id, auths, keys, abstract]
-            dbmodel.insert_detail(database, collection, detail)
+            dbmodel.insert_detail(collection, detail)
 
             print(detail, '\nDetail inserted.\n')
             sleep(10)
 
         except NoSuchElementException:
             detail = [self.driver.current_url, '', '', '', '', '', '']
-            dbmodel.insert_detail(database, collection, detail)
+            dbmodel.insert_detail(collection, detail)
             print('Cannot collect data, maybe wrong url.\n')
         
         except TimeoutException:
             detail = [self.driver.current_url, '', '', '', '', '', '']
-            dbmodel.insert_detail(database, collection, detail)
+            dbmodel.insert_detail(collection, detail)
             print('Take too much time. Move to next url.\n')
         
             

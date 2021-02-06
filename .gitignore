@@ -7,10 +7,10 @@ crawlers/__pycache__
 
 
 # files
-.ipynb
+test.ipynb
 .pyc
 test.py
-data/test.py
+data/tes.py
 config.py
 model.py
 logs.txt

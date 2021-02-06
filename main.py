@@ -10,14 +10,14 @@ from time import sleep
 import os
 
 
-def get_browser(driver=None, launch=None):
+def get_browser(driver=None, launch_on=None):
     " driver='Chrome' or 'Firefox', launch='local' or 'server' "
     if driver == 'Firefox':
         fo = firefox_opts()
         fo.add_argument("--headless")
         fo.add_argument("--disable-notifications")
         fo.add_argument("disable-infobars")
-        if launch == 'local':
+        if launch_on == 'local':
             driver = Firefox(executable_path='./driver/geckodriver.exe', options=fo)
         else:
             firefox_opts.binary_location = os.environ.get("FIREFOX_BIN")
@@ -28,7 +28,7 @@ def get_browser(driver=None, launch=None):
         co.add_argument("--headless")
         co.add_argument("--disable-dev-shm-usage")
         co.add_argument("--no-sandbox")
-        if launch == 'local':
+        if launch_on == 'local':
             driver = Chrome(executable_path='./driver/chromedriver.exe', options=co)
         else:
             co.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
@@ -54,7 +54,7 @@ def collect_urls(driver, keyword):
 
 if __name__ == '__main__':
     try:
-        driver = get_browser(driver='Chrome', launch='server')
+        driver = get_browser(driver='Chrome', launch_on='server')
         print('Driver opened.')
         
         # url_file = './data/urls.csv'
@@ -67,13 +67,18 @@ if __name__ == '__main__':
         # --- Collect Details Command ---
         jp = JournalPage(driver)
         dbmodel = DBModel()
-        database = 'journal_details'
-        list_url = dbmodel.get_urls(database)
+        collection = 'details'
 
+        list_url = dbmodel.get_urls()
         for data in list_url:
             url = data['url']
             try:
-                jp.crawl_data(url)
+                value = dbmodel.check_docs(collection, url)
+                if value is False:
+                    print("The url hasn't been crawled yet.")
+                    jp.crawl_data(url)
+                else:
+                    print("Url is already crawled.")
             except TimeoutError:
                 print('Wrong url or taking too much time to respond.')
                 jp.crawl_data(url)

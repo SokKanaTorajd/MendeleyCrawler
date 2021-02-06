@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from time import sleep
 
 def cookies_check(driver):
@@ -10,4 +10,9 @@ def cookies_check(driver):
         sleep(3)
     except NoSuchElementException:
         print('\ncookies button unavailable')
+        pass
+    except TimeoutException:
+        pass
+    except TimeoutError:
+        print('taking too much time')
         pass
