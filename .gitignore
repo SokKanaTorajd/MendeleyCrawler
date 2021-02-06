@@ -7,8 +7,8 @@ crawlers/__pycache__
 
 
 # files
-*.ipynb
-*.pyc
+test.ipynb
+.pyc
 test.py
 data/tes.py
 config.py
