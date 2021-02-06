@@ -134,8 +134,8 @@ class JournalPage():
     def crawl_data(self, url):
         self.driver.implicitly_wait(10)
         self.driver.get(url)
-        self.driver.refresh()
-
+        # self.driver.refresh()
+        sleep(10)
         cookies_check(self.driver)
 
         dbmodel = DBModel()

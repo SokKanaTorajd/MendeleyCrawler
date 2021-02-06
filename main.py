@@ -1,4 +1,4 @@
-from selenium.common.exceptions import NoSuchElementException
+from selenium.common.exceptions import NoSuchElementException, TimeoutException
 from selenium.webdriver.chrome.options import Options as chrome_opts
 from selenium.webdriver.firefox.options import Options as firefox_opts
 from selenium.webdriver import Chrome
@@ -79,9 +79,15 @@ if __name__ == '__main__':
                     jp.crawl_data(url)
                 else:
                     print("Url is already crawled.")
+
             except TimeoutError:
                 print('Wrong url or taking too much time to respond.')
                 jp.crawl_data(url)
+
+            except TimeoutException:
+                print('Timeout. Trying one more time.')
+                jp.crawl_data(url)
+            
 
         print('All data is collected')
         driver.close()
