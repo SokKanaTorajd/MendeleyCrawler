@@ -7,11 +7,10 @@ crawlers/__pycache__
 
 
 # files
-test.ipynb
-.pyc
+*.ipynb
+*.pyc
 test.py
 data/tes.py
 config.py
-model.py
 logs.txt
 geckodriver.log
