@@ -33,13 +33,12 @@ import pandas as pd
 # ]
 
 dbmodel = DBModel()
-database = 'journal_details'
 coll_details = 'details'
 coll_urls = 'urls'
 
-list_url = dbmodel.get_urls(database)
-for data in list_url:
-    print(data['url'])
+# list_url = dbmodel.get_urls(database)
+# for data in list_url:
+#     print(data['url'])
 
 
 # for d in data:
@@ -54,4 +53,31 @@ for data in list_url:
 #     dbmodel.insert_url(database, coll_urls, url)
 
 # print('data inserted')
+
+url = [
+    "https://www.mendeley.com/catalogue/189518ae-c7f3-3950-b1a9-472e538777eb",
+    "https://www.mendeley.com/catalogue/f85f3983-fccd-3d8e-b167-86c2dcab1b37",
+    "https://www.mendeley.com/catalogue/ee2a011e-7817-31eb-9731-f9c200c5b581",
+    "https://www.mendeley.com/catalogue/31947e74-7d21-3d23-9775-c266f848ad1d"]
+
+
+urls = dbmodel.get_urls()
+for u in urls:
+    # print(u)
+    data = dbmodel.check_docs(coll_details, u['url'])
+    if data is False:
+        print('ayo crawling')
+    else:
+        print('ga usah crawling')
+    # print(u['url'])
+    # print(check_value)
+    # if check_value == u['url']:
+    #     print(u['url'], 'sudah ada')
+    # else:
+    #     print('ayo ambil')
+    
+# url = "https://www.mendeley.com/catalogue/31947e74-7d21-3d23-9775-c266f848ad1d"
+# url = "https://www.mendeley.com/catalogue/189518ae-c7f3-3950-b1a9-472e538777eb"
+# value = dbmodel.get_data('details', url)
+# print(value, type(value))
 
