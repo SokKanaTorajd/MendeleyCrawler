@@ -42,8 +42,6 @@ class DBModel(object):
         result = db[collection].find_one({'url': url})
         if result is None:
             value = False
-            print('url belum ada')
         else:
             value = True
-            print('url {} sudah ada'.format(result['url']))
         return value
