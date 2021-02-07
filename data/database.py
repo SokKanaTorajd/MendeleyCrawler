@@ -15,7 +15,7 @@ class DBModel(object):
 
     def get_urls(self):
         db = self.client[self.database]
-        collection = db['urls']
+        collection = db['digital_supply_chain_urls']
         result = collection.find()
 
         print('all urls is collected.')

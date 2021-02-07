@@ -45,11 +45,21 @@ def collect_urls(driver, keyword):
     result = sp.insert_keyword(keyword)
 
     for i in range(int(result)):
-        print('\npage {}'.format(i+1))
-        url = 'https://www.mendeley.com/search/?page={}&publicationType=journal&query={}&sortBy=relevance'.format(i+1, keyword)
-        # sp.get_links(url, url_file)
-        sp.get_links(url)
-        sleep(20)
+        try:
+            print('\npage {}'.format(i+1))
+            url = 'https://www.mendeley.com/search/?page={}&publicationType=journal&query={}&sortBy=relevance'.format(i+1, keyword)
+            # sp.get_links(url, url_file)
+            sp.get_links(url)
+
+        except TimeoutException:
+            print('Wrong url or taking too much time to respond.')
+            sp.get_links(url)
+
+        except TimeoutError:
+            print('Timeout. Trying one more time.')
+            sp.get_links(url)
+
+        sleep(5)
 
 
 if __name__ == '__main__':
@@ -61,32 +71,32 @@ if __name__ == '__main__':
         # detail_file = './data/new-details.csv'
 
         # --- Collect Urls Command ---
-        # keyword = 'supply chain'
-        # collect_urls(driver, keyword, url_file)
+        keyword = 'digital supply chain'
+        collect_urls(driver, keyword)
 
-        # --- Collect Details Command ---
-        jp = JournalPage(driver)
-        dbmodel = DBModel()
-        collection = 'details'
+        # # --- Collect Details Command ---
+        # jp = JournalPage(driver)
+        # dbmodel = DBModel()
+        # collection = 'details'
 
-        list_url = dbmodel.get_urls()
-        for data in list_url:
-            url = data['url']
-            try:
-                value = dbmodel.check_docs(collection, url)
-                if value is False:
-                    print("The url hasn't been crawled yet.")
-                    jp.crawl_data(url)
-                else:
-                    print("Url is already crawled.")
+        # list_url = dbmodel.get_urls()
+        # for data in list_url:
+        #     url = data['url']
+        #     try:
+        #         value = dbmodel.check_docs(collection, url)
+        #         if value is False:
+        #             print("The url hasn't been crawled yet.")
+        #             jp.crawl_data(url)
+        #         else:
+        #             print("Url is already crawled.")
 
-            except TimeoutError:
-                print('Wrong url or taking too much time to respond.')
-                jp.crawl_data(url)
+        #     except TimeoutError:
+        #         print('Wrong url or taking too much time to respond.')
+        #         jp.crawl_data(url)
 
-            except TimeoutException:
-                print('Timeout. Trying one more time.')
-                jp.crawl_data(url)
+        #     except TimeoutException:
+        #         print('Timeout. Trying one more time.')
+        #         jp.crawl_data(url)
             
 
         print('All data is collected')
