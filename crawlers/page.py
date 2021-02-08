@@ -131,7 +131,7 @@ class JournalPage():
         
         print('Journal Crawling Succeed')
 
-    def crawl_data(self, url):
+    def crawl_data(self, collection, url):
         self.driver.implicitly_wait(10)
         self.driver.get(url)
         # self.driver.refresh()
@@ -139,7 +139,6 @@ class JournalPage():
         cookies_check(self.driver)
 
         dbmodel = DBModel()
-        collection = 'details'
 
         try:
             title = self.journal_title()

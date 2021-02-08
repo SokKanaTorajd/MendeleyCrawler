@@ -71,32 +71,32 @@ if __name__ == '__main__':
         # detail_file = './data/new-details.csv'
 
         # --- Collect Urls Command ---
-        keyword = 'digital supply chain'
-        collect_urls(driver, keyword)
+        # keyword = 'digital supply chain'
+        # collect_urls(driver, keyword)
 
         # # --- Collect Details Command ---
-        # jp = JournalPage(driver)
-        # dbmodel = DBModel()
-        # collection = 'details'
+        jp = JournalPage(driver)
+        dbmodel = DBModel()
+        collection = 'digital_supply_chain_details'
 
-        # list_url = dbmodel.get_urls()
-        # for data in list_url:
-        #     url = data['url']
-        #     try:
-        #         value = dbmodel.check_docs(collection, url)
-        #         if value is False:
-        #             print("The url hasn't been crawled yet.")
-        #             jp.crawl_data(url)
-        #         else:
-        #             print("Url is already crawled.")
+        list_url = dbmodel.get_urls()
+        for data in list_url:
+            url = data['url']
+            try:
+                value = dbmodel.check_docs(collection, url)
+                if value is False:
+                    print("The url hasn't been crawled yet.")
+                    jp.crawl_data(collection, url)
+                else:
+                    print("Url is already crawled.")
 
-        #     except TimeoutError:
-        #         print('Wrong url or taking too much time to respond.')
-        #         jp.crawl_data(url)
+            except TimeoutError:
+                print('Wrong url or taking too much time to respond.')
+                jp.crawl_data(collection, url)
 
-        #     except TimeoutException:
-        #         print('Timeout. Trying one more time.')
-        #         jp.crawl_data(url)
+            except TimeoutException:
+                print('Timeout. Trying one more time.')
+                jp.crawl_data(collection, url)
             
 
         print('All data is collected')
